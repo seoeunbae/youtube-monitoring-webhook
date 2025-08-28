@@ -28,10 +28,13 @@
 
 전체적인 흐름은 다음과 같습니다.
 **1. 소스코드 작성**
+
 **2. Cloud function 배포:** 작성한 코드를 컨테이너화하여 Cloud Run에 배포합니다.
+
 **3. Slack Webhook 연동 :** Slack webhook URL을 생성하고 연동합니다.
+
 **3. YouTube Hub 구독:** 배포된 Cloud Run 서비스의 URL을 사용하여 특정 YouTube 채널의 업데이트 알림을 구독 신청합니다.
-    - https://pubsubhubbub.appspot.com/subscribe
+ - https://pubsubhubbub.appspot.com/subscribe
 
 ## ⚙️ Cloud shell에서 사용하는 법
 
