@@ -77,7 +77,7 @@ def youtube_webhook(request):
 def generate(file_uri, prompt):
   client = genai.Client(
       vertexai=True,
-      project="test-for-monitoring-webhook",
+      project=os.environ.get('GCP_PROJECT'),
       location="global",
   )
 
