@@ -1,0 +1,7 @@
+flask==3.0.3
+xmltodict==0.13.0
+requests==2.31.0
+python-dotenv==1.0.1
+pydantic==2.11.7
+google-genai==1.19.0
+
