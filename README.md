@@ -1,21 +1,27 @@
-# YouTube 영상 규정 준수 자동 분석 및 Slack 알림 시스템
+# Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템
 
 ## 📝 프로젝트 개요
 
-이 프로젝트는 지정된 YouTube 채널에 새로운 영상이 업로드될 때, 해당 영상에 법적으로 명시해야 하는 특정 용어가 포함되었는지 자동으로 분석하고 결과를 Slack으로 즉시 알려주는 자동화 시스템입니다.
+이 프로젝트는 지정된 YouTube 채널에 새로운 영상이 업로드될 때, 게임 산업의 광고 심의 및 마케팅 규제에 따라 콘텐츠에 필수로 포함되어야 하는 고지 문구인  "확률형 아이템 포함" 용어가 있는지 Vertex AI를 통해 분석하고, 누락 시 결과를 Slack으로 즉시 알려주는 자동화 시스템입니다.
 
-서버리스 아키텍처를 기반으로 구축되어 효율적이고 신속하게 영상의 규정 준수 여부를 모니터링할 수 있습니다
+**서버리스 아키텍처를 기반으로, 수동 검수 과정을 최소화하고 규제 위반 리스크를 사전에 관리할 수 있는 컴플라이언스 모니터링을 지원합니다.**
+
+**금융, 의료, 식품, 게임 등 다양한 산업의 광고 심의 및 마케팅 규제에 재활용될 수 있으며, 개발리소스 없이도 마케팅에서 바로 적용이 가능합니다.**
 
 ---
 
 ## ⚙️ Architectrue
 
-<img width="1388" height="740" alt="Image" src="https://github.com/user-attachments/assets/05f03c44-b8bb-4165-aa51-a7e056362efe" />
+<img width="946" height="498" alt="Image" src="https://github.com/user-attachments/assets/3c357798-432d-430d-bcc3-6338c3ade071" />
 
 ## Project structure 
 
 ```
 /youtube-webhook
+└── services
+     ├── gemini.py
+     ├── parser.py
+     └── slack.py
 ├── main.py
 ├── requirements.txt
 └── .env
@@ -52,6 +58,7 @@
 ## ✅  구현 시나리오
 
 전체적인 흐름은 다음과 같습니다.
+
 **1. 소스코드 작성**
 
 **2. Cloud function 배포:** 작성한 코드를 컨테이너화하여 Cloud Run에 배포합니다.
