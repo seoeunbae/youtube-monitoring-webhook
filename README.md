@@ -108,7 +108,6 @@ gcloud run deploy ${SERVICE_NAME} \
   --region ${REGION} \
   --allow-unauthenticated
 ```
-<br>
 
 5. set the Slack Webhook
 
