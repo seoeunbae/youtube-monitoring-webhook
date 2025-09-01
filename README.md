@@ -27,20 +27,23 @@ Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
   YouTube Data API를 사용하여 특정 채널에 새 동영상이 업로드될 때마다 알림을 받을 Pub/Sub 토픽을 구독. 
 
 **2. Cloud Function (1) - 콘텐츠 분석 트리거:**
-  트리거: 위에서 설정한 Pub/Sub 토픽에 메시지가 도착하면 이 함수가 자동으로 실행.
+
+  트리거: 위에서 설정한 Pub/Sub 토픽에 메시지가 도착하면 이 함수가 자동으로 실행.  
     역할: Pub/Sub 메시지에서 새로 업로드된 동영상 ID를 추출.
     - 1. YouTube Data API를 호출하여 동영상의 기본 정보(제목, 설명)와 자막(Caption) 데이터를 가져옴.
     - 2. 추출한 모든 텍스트 데이터(제목, 설명, 자막)와 동영상 파일을 분석할 수 있도록 Vertex AI Gemini API를 호출.
 
 **3. Vertex AI (Gemini 2.5 Pro or Flash):**
-  역할: 멀티모달(Multimodal) 기능을 활용하여 콘텐츠를 종합적으로 분석.
+
+  역할: 멀티모달(Multimodal) 기능을 활용하여 콘텐츠를 종합적으로 분석.  
     분석 내용:
       - 1. 영상 분석: Cloud Function에서 전달받은 영상 컨텐츠에 '확률형 아이템 포함' 문구가 있는지 확인.
       - 2. 이미지 분석 (OCR): YouTube 커뮤니티 탭 등에 이미지가 게시될 경우, 해당 이미지 내 텍스트를 인식하여 문구를 확인.
     결과: 분석 후 '확률형 아이템 포함' 문구의 존재 여부를 Boolean형태로 반환.
 
 **4. Cloud Function (2) - 알림 발송:**
-  트리거: Vertex AI 분석이 완료된 후, 첫 번째 Cloud Function이 결과에 따라 이 함수를 호출하거나 또는 별도의 Pub/Sub 토픽으로 결과를 전달하여 트리거.
+
+  트리거: Vertex AI 분석이 완료된 후, 첫 번째 Cloud Function이 결과에 따라 이 함수를 호출하거나 또는 별도의 Pub/Sub 토픽으로 결과를 전달하여 트리거.  
   - 역할:
     Gemini의 분석 결과가 false일 경우, Slack Webhook API 호출.
     Slack 메시지에 어떤 동영상에서 문구가 누락되었는지 식별할 수 있도록 동영상 링크와 제목을 포함하여 알림을 보냄.
