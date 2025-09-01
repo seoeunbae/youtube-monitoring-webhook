@@ -1,4 +1,5 @@
-# Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템
+# AI-Powered YouTube Marketing Compliance Monitoring System
+Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
 
 ## 📝 Overview
 
@@ -8,11 +9,14 @@
 
 **금융, 의료, 식품, 게임 등 다양한 산업의 광고 심의 및 마케팅 규제에 재활용될 수 있으며, 개발리소스 없이도 마케팅에서 바로 적용이 가능합니다.**
 
----
+
+
 
 ## ⚙️ Architectrue
 
 <img width="946" height="498" alt="Image" src="https://github.com/user-attachments/assets/3c357798-432d-430d-bcc3-6338c3ade071" />
+
+
 
 ## Project structure 
 
@@ -26,6 +30,7 @@
 ├── requirements.txt
 └── .env
 ```
+
 
 ## Architecture Flow
 
@@ -52,7 +57,6 @@
     Slack 메시지에 어떤 동영상에서 문구가 누락되었는지 식별할 수 있도록 동영상 링크와 제목을 포함하여 알림을 보냄.
 
 
----
 
 
 ##  How to use
