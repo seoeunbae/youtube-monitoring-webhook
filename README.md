@@ -1,6 +1,8 @@
 # AI-Powered YouTube Marketing Compliance Monitoring System
 Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
 
+<br>
+
 ## 📝 Overview
 
 이 프로젝트는 지정된 YouTube 채널에 새로운 영상이 업로드될 때, 게임 산업의 광고 심의 및 마케팅 규제에 따라 콘텐츠에 필수로 포함되어야 하는 고지 문구인  "확률형 아이템 포함" 용어가 있는지 Vertex AI를 통해 분석하고, 누락 시 결과를 Slack으로 즉시 알려주는 자동화 시스템입니다.
