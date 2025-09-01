@@ -1,6 +1,6 @@
 # Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템
 
-## 📝 프로젝트 개요
+## 📝 Overview
 
 이 프로젝트는 지정된 YouTube 채널에 새로운 영상이 업로드될 때, 게임 산업의 광고 심의 및 마케팅 규제에 따라 콘텐츠에 필수로 포함되어야 하는 고지 문구인  "확률형 아이템 포함" 용어가 있는지 Vertex AI를 통해 분석하고, 누락 시 결과를 Slack으로 즉시 알려주는 자동화 시스템입니다.
 
@@ -55,7 +55,7 @@
 ---
 
 
-##  구현 시나리오
+##  How to use
 
 전체적인 흐름은 다음과 같습니다.
 
@@ -68,15 +68,15 @@
 **3. YouTube Hub 구독:** 배포된 Cloud Run 서비스의 URL을 사용하여 특정 YouTube 채널의 업데이트 알림을 구독 신청합니다.
  - https://pubsubhubbub.appspot.com/subscribe
 
-## ⚙️ Cloud shell에서 사용하는 법
+## ⚙️ Cloud shell Command 
 
-1. 소스 코드 다운로드
+1. clone the code
 
 ```
 git clone https://github.com/seoeunbae/youtube-monitoring-webhook.git
 ```
 
-2. 환경 변수 설정
+2. set the environment variables
 
 ```
 export PROJECT_ID=$(gcloud config get-value project)
@@ -84,13 +84,13 @@ export REGION="us-central1"
 export SERVICE_NAME="{SERVICE_NAME}"
 ```
 
-3. API 활성화 
+3. activate API 
 
 ```
 gcloud services enable cloudfunctions.googleapis.com aiplatform.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
 ```
 
-4. Cloud functions에 배포합니다.
+4. deploy Cloud function
 
 ```
 gcloud run deploy ${SERVICE_NAME} \ 
@@ -101,11 +101,11 @@ gcloud run deploy ${SERVICE_NAME} \
   --allow-unauthenticated
 ```
 
-5. Slack 연동
+5. set the Slack Webhook
 
    Slack -> setting -> add Apps -> Incoming webhooks 생성 
 
-6. Pubsubhubhub 
+6. subscribe youtube with Pubsubhubhub.com 
 - https://pubsubhubbub.appspot.com/subscribe
 로 들어가서 아래에 해당하는 값들을 입력 후 subscribe합니다.
  - 1. callback URL = {YOUR_CLOUD_FUNCTION_URL}
