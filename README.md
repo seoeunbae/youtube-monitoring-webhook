@@ -17,22 +17,6 @@ Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
 
 <img width="946" height="498" alt="Image" src="https://github.com/user-attachments/assets/3c357798-432d-430d-bcc3-6338c3ade071" />
 
-
-<br>
-
-## Project structure 
-
-```
-/youtube-webhook
-└── services
-     ├── gemini.py
-     ├── parser.py
-     └── slack.py
-├── main.py
-├── requirements.txt
-└── .env
-```
-
 <br>
 
 ## Architecture Flow
@@ -59,9 +43,23 @@ Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
     Gemini의 분석 결과가 false일 경우, Slack Webhook API 호출.
     Slack 메시지에 어떤 동영상에서 문구가 누락되었는지 식별할 수 있도록 동영상 링크와 제목을 포함하여 알림을 보냄.
 
+<br>
 
+## Project structure 
+
+```
+/youtube-webhook
+└── services
+     ├── gemini.py
+     ├── parser.py
+     └── slack.py
+├── main.py
+├── requirements.txt
+└── .env
+```
 
 <br>
+
 
 ##  How to use
 
