@@ -18,6 +18,7 @@ Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
 <img width="946" height="498" alt="Image" src="https://github.com/user-attachments/assets/3c357798-432d-430d-bcc3-6338c3ade071" />
 
 
+<br>
 
 ## Project structure 
 
@@ -32,6 +33,7 @@ Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
 └── .env
 ```
 
+<br>
 
 ## Architecture Flow
 
@@ -59,10 +61,9 @@ Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
 
 
 
+<br>
 
 ##  How to use
-
-전체적인 흐름은 다음과 같습니다.
 
 **1. 소스코드 다운로드**
 
@@ -72,6 +73,8 @@ Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
 
 **3. YouTube Hub 구독:** 배포된 Cloud Run 서비스의 URL을 사용하여 특정 YouTube 채널의 업데이트 알림을 구독 신청합니다.
  - https://pubsubhubbub.appspot.com/subscribe
+
+<br>
 
 ## ⚙️ Cloud shell Command 
 
@@ -105,10 +108,12 @@ gcloud run deploy ${SERVICE_NAME} \
   --region ${REGION} \
   --allow-unauthenticated
 ```
+<br>
 
 5. set the Slack Webhook
 
    Slack -> setting -> add Apps -> Incoming webhooks 생성 
+<br>
 
 6. subscribe youtube with Pubsubhubhub.com 
 - https://pubsubhubbub.appspot.com/subscribe
