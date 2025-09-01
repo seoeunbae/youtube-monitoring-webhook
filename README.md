@@ -29,9 +29,9 @@ Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
 **2. Cloud Function (1) - 콘텐츠 분석 트리거:**
 
   트리거: 위에서 설정한 Pub/Sub 토픽에 메시지가 도착하면 이 함수가 자동으로 실행.  
-   -  역할: Pub/Sub 메시지에서 새로 업로드된 동영상 ID를 추출.
-    - 1. YouTube Data API를 호출하여 동영상의 기본 정보(제목, 설명)와 자막(Caption) 데이터를 가져옴.
-    - 2. 추출한 모든 텍스트 데이터(제목, 설명, 자막)와 동영상 파일을 분석할 수 있도록 Vertex AI Gemini API를 호출.
+   -  역할: Pub/Sub 메시지에서 새로 업로드된 동영상 ID를 추출.  
+    - 1. YouTube Data API를 호출하여 동영상의 기본 정보(제목, 설명)와 자막(Caption) 데이터를 가져옴.  
+    - 2. 추출한 모든 텍스트 데이터(제목, 설명, 자막)와 동영상 파일을 분석할 수 있도록 Vertex AI Gemini API를 호출.  
 
 **3. Vertex AI (Gemini 2.5 Pro or Flash):**
 
