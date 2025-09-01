@@ -23,7 +23,7 @@ Youtube 영상 규정 준수 자동 분석 및 Slack 알림 시스템 입니다.
 
 ## Architecture Flow
 
-**1. YouTube Push Notifications 설정:**
+**1. YouTube Push Notifications 설정:**  
   YouTube Data API를 사용하여 특정 채널에 새 동영상이 업로드될 때마다 알림을 받을 Pub/Sub 토픽을 구독. 
 
 **2. Cloud Function (1) - 콘텐츠 분석 트리거:**
