@@ -5,26 +5,33 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def generate(file_uri, prompt):
+def generate(file_uri, prompt, text):
   client = genai.Client(
       vertexai=True,
       project=os.getenv('GCP_PROJECT'),
       location="global",
   )
-
-  msg1_text1 = types.Part.from_text(text=prompt)
-  msg1_video1 = types.Part.from_uri(
+  video_meta = types.VideoMetadata(
+      start_offset="0.0s",  # 예: 0초에서 시작
+      end_offset="10.0s", # 예: 30.5초에서 끝
+      fps=1.0             # 예: 초당 1 프레임
+  )
+  msg_text = types.Part.from_text(text=text)
+  msg_video = types.Part.from_uri(
       file_uri=file_uri,
       mime_type="video/*",
+      video_metadata=video_meta 
   )
-
+  msg_prompt= types.Part.from_text(text=prompt)
+  
   model = "gemini-2.5-pro"
   contents = [
     types.Content(
       role="user",
       parts=[
-        msg1_text1,
-        msg1_video1
+        msg_text,
+        msg_video,
+        msg_prompt,
       ]
     ),
   ]

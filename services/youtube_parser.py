@@ -1,7 +1,7 @@
 import xmltodict
 import logging
 
-def parse_webhook_data(xml_data):
+def parse_youtube_webhook_data(xml_data):
     """Parses the XML data from the YouTube webhook.
 
     Args:
