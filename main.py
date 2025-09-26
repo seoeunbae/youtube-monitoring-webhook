@@ -189,7 +189,7 @@ def youtube_webhook(request):
                 
                 send_slack_notification(message)
             except Exception as e:
-                logging.error(f"Error during Gemini generation or Slack notification for Facebook: {e}")
+                logging.error(f"Error during Gemini generation or Slack notification for Youtube: {e}")
                 return "Internal server error for Facebook webhook", 500      
             return "", 204
         else:

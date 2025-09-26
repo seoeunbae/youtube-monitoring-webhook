@@ -26,8 +26,12 @@ def generate(file_uri, prompt, text):
   
   model = "gemini-2.5-pro"
   contents = [
-      types.Content(role="user", parts=[msg_video, msg_text]),
-      types.Content(role="user", parts=[msg_prompt])
+      types.Content(role="user", parts=[
+        msg_video,
+        msg_text,
+        msg_prompt
+        ]
+      )
   ]
 
   generate_content_config = types.GenerateContentConfig(
@@ -55,7 +59,7 @@ def generate(file_uri, prompt, text):
   response = client.models.generate_content(
     model = model,
     contents = contents,
-    config = generate_content_config,
-    )
+    generation_config = generate_content_config,
+  )
   print(response.text)
   return response.text
