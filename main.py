@@ -53,7 +53,7 @@ def youtube_webhook(request):
         logging.info("POST 요청: 새로운 데이터를 수신했습니다.")
         print(request.headers)
         is_tiktok_webhook = 'TikTok-Signature' in request.headers
-        is_youtube_webhook = 'Link' in request.headers and 'hub.topic' in request.headers.get('Link', '') # YouTube usually sends Link header with hub.topic
+        is_youtube_webhook = request.headers.get('Content-Type') == 'application/atom+xml' # YouTube usually sends Link header with hub.topic
         is_facebook_webhook = 'X-Hub-Signature-256' in request.headers
 
         content_type = request.headers.get('Content-Type', '')
@@ -125,12 +125,13 @@ def youtube_webhook(request):
             logging.info(f"Facebook Post ID: {facebook_video_data['post_id']}")
             logging.info(f"Facebook Page ID: {facebook_video_data['page_id']}")
             logging.info(f"Facebook Published: {facebook_video_data['published']}")
+            logging.info(f"Facebook URL: {facebook_video_data['message']}")
 
             video_uri = facebook_video_data['url'] # Use the URL derived from parsing
             prompt = "다음 Facebook 영상 URI에서 영상의 제목과 설명에 '확률형 아이템 포함' 이라는 문구가 정확히 포함되어 있는지 여부를 판단하여 포함인 경우 'True' 또는 미포함 인 경우 'False' 으로만 답변해주세요."
 
             try:
-                response_text = generate(video_uri, prompt, "")
+                response_text = generate(video_uri, prompt, facebook_video_data['message'])
                 logging.info(f"Gemini Response (Facebook): {response_text}")
 
                 is_included = response_text.strip() == "True"
@@ -191,5 +192,7 @@ def youtube_webhook(request):
                 logging.error(f"Error during Gemini generation or Slack notification for Facebook: {e}")
                 return "Internal server error for Facebook webhook", 500      
             return "", 204
+        else:
+            logging.error("Unsupported channel")
     else:
         return "Method Not Allowed", 405
