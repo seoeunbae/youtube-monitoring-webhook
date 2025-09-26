@@ -13,7 +13,7 @@ def generate(file_uri, prompt, text):
   )
   video_meta = types.VideoMetadata(
       start_offset="0.0s",  # 예: 0초에서 시작
-      end_offset="10.0s", # 예: 30.5초에서 끝
+      end_offset="10.0s", # 예: 10.5초에서 끝
       fps=1.0             # 예: 초당 1 프레임
   )
   msg_text = types.Part.from_text(text=text)
@@ -26,14 +26,8 @@ def generate(file_uri, prompt, text):
   
   model = "gemini-2.5-pro"
   contents = [
-    types.Content(
-      role="user",
-      parts=[
-        msg_text,
-        msg_video,
-        msg_prompt,
-      ]
-    ),
+      types.Content(role="user", parts=[msg_video, msg_text]),
+      types.Content(role="user", parts=[msg_prompt])
   ]
 
   generate_content_config = types.GenerateContentConfig(
@@ -63,4 +57,5 @@ def generate(file_uri, prompt, text):
     contents = contents,
     config = generate_content_config,
     )
+  print(response.text)
   return response.text

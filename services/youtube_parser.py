@@ -14,6 +14,7 @@ def parse_youtube_webhook_data(xml_data):
         logging.warning("POST request received with empty payload.")
         return None
     try:
+        print("Start parsing XML data...")
         data = xmltodict.parse(xml_data)
         entry = data.get('feed', {}).get('entry')
         if not entry:
