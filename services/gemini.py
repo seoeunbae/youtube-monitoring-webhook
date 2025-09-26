@@ -22,7 +22,7 @@ def generate(file_uri, prompt, text):
     end_offset="10.0s",
     fps=1.0
   )
-  
+
   msg_prompt= types.Part(text=prompt)
 
   part_vidoe_content = types.Part(
@@ -39,6 +39,7 @@ def generate(file_uri, prompt, text):
   #     )
   # ]
   contents = types.Content(
+    role="user",
     parts=[
       part_vidoe_content,
       msg_text,
@@ -70,7 +71,7 @@ def generate(file_uri, prompt, text):
   response = client.models.generate_content(
     model = model,
     contents = contents,
-    generation_config = generate_content_config,
+    config = generate_content_config
   )
   print(response.text)
   return response.text

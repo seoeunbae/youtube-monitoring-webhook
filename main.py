@@ -177,11 +177,11 @@ def youtube_webhook(request):
                 result_message = "포함" if is_included else "미포함"
                 
                 message = (
-                        f"**Facebook 영상 업데이트** 📘\n"
+                        f"**Youtube 영상 업데이트** 📘\n"
                         f"영상 제목: {video_data['title']}\n"
                         f"확률형 아이템 문구: {result_message}\n"
-                        f"영상 URL: {video_data}\n"
-                        f"페이지 ID: {video_data['page_id']}\n"
+                        f"채널 ID: {video_data['channel_id']}\n"
+                        f"video ID: {video_data['video_id']}\n"
                         f"영상 업로드 시간: {video_data['published']}"
                     )
                     
