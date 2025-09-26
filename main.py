@@ -11,7 +11,7 @@ from services.tiktok_parser import verify_tiktok_signature, extract_video_id_fro
 
 load_dotenv()
 
-facebook_verify_token = os.getenv('FACEBOOK_VERIFY_TOKEN')
+FACEBOOK_VERIFY_TOKEN = os.getenv('FACEBOOK_VERIFY_TOKEN')
 TIKTOK_CLIENT_SECRET=os.getenv("TIKTOK_CLIENT_SECRET")
 # instagram_verify_token = os.getenv('INSTAGRAM_VERIFY_TOKEN')
 
@@ -32,7 +32,7 @@ def youtube_webhook(request):
             logging.info("Facebook 인증 요청을 감지했습니다.")
             verify_token = request.args.get('hub.verify_token')  
             
-            if verify_token == facebook_verify_token:
+            if verify_token == FACEBOOK_VERIFY_TOKEN:
                 challenge = request.args.get('hub.challenge')
                 logging.info("Facebook 확인 토큰이 일치합니다. challenge를 반환합니다s.")
                 return challenge, 200
