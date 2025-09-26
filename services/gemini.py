@@ -20,7 +20,7 @@ def generate(file_uri, prompt, text):
   msg_video = types.Part.from_uri(
       file_uri=file_uri,
       mime_type="video/*",
-      video_metadata=video_meta 
+      videoMetadata=video_meta 
   )
   msg_prompt= types.Part.from_text(text=prompt)
   
