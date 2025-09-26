@@ -182,6 +182,7 @@ def youtube_webhook(request):
                         f"확률형 아이템 문구: {result_message}\n"
                         f"채널 ID: {video_data['channel_id']}\n"
                         f"video ID: {video_data['video_id']}\n"
+                        f"영상 URL: {video_uri}\n"
                         f"영상 업로드 시간: {video_data['published']}"
                     )
                     
