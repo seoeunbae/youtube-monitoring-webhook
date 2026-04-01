@@ -22,6 +22,20 @@ logging.basicConfig(level=logging.INFO)
 # 더 강력한 중복 방지를 위해서는 Redis나 Firestore 같은 외부 저장소 사용을 권장합니다.
 PROCESSED_EVENTS = set()
 
+# slack response을 커스텀하는 부분
+def structure_slack_response(response_text):
+    is_included = response_text.strip() == "True"
+    result_message = "포함" if is_included else "미포함"
+    
+    message = (
+        f"**TikTok 영상 업데이트** 🎥\n"
+        f"채널 명: {tiktok_channel_name}\n"
+        f"확률형 아이템 문구: {result_message}\n"
+        f"영상 URL: {video_uri}\n"
+        f"영상 업로드 시간: {published}"
+    )
+    return message
+
 @functions_framework.http
 def youtube_webhook(request):
     logging.info(request)
@@ -109,16 +123,7 @@ def handle_webhook(request):
 
             try:
                 response_text = generate(video_uri, prompt, "")
-                is_included = response_text.strip() == "True"
-                result_message = "포함" if is_included else "미포함"
-                
-                message = (
-                    f"**TikTok 영상 업데이트** 🎥\n"
-                    f"채널 명: {tiktok_channel_name}\n"
-                    f"확률형 아이템 문구: {result_message}\n"
-                    f"영상 URL: {video_uri}\n"
-                    f"영상 업로드 시간: {published}"
-                )
+                message = structure_slack_response(response_text)
                 send_slack_notification(message)
                 return "ok", 200
             except Exception as e:
@@ -147,17 +152,7 @@ def handle_webhook(request):
 
         try:
             response_text = generate(video_uri, prompt, facebook_video_data.get('message', ''))
-            is_included = response_text.strip() == "True"
-            result_message = "포함" if is_included else "미포함"
-            
-            message = (
-                f"**Facebook 영상 업데이트** 📘\n"
-                f"영상 제목: {facebook_video_data.get('message', '제목 없음')}\n"
-                f"확률형 아이템 문구: {result_message}\n"
-                f"영상 URL: {video_uri}\n"
-                f"게시물 ID: {facebook_video_data.get('post_id')}\n"
-                f"영상 업로드 시간: {facebook_video_data.get('created_time')}"
-            )
+            message = structure_slack_response(response_text)
             send_slack_notification(message)
             return "ok", 200
         except Exception as e:
@@ -182,18 +177,7 @@ def handle_webhook(request):
         
         try:
             response_text = generate(video_uri, prompt, "")
-            is_included = response_text.strip() == "True"
-            result_message = "포함" if is_included else "미포함"
-            
-            message = (
-                f"**Youtube 영상 업데이트** 📺\n"
-                f"영상 제목: {video_data['title']}\n"
-                f"확률형 아이템 문구: {result_message}\n"
-                f"채널 ID: {video_data['channel_id']}\n"
-                f"영상 ID: {video_data['video_id']}\n"
-                f"영상 URL: {video_uri}\n"
-                f"영상 업로드 시간: {video_data['published']}"
-            )
+            message = structure_slack_response(response_text)
             send_slack_notification(message)
             return "ok", 200
         except Exception as e:
