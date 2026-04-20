@@ -1,4 +1,5 @@
 import os
+import logging
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
@@ -73,5 +74,5 @@ def generate(file_uri, prompt, text):
     contents = contents,
     config = generate_content_config
   )
-  print(response.text)
+  logging.info(response.text)
   return response.text

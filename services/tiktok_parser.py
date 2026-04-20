@@ -1,16 +1,9 @@
 import logging
-import functions_framework
 import hmac
 import hashlib
 import json
-import os # For environment variables like CLIENT_SECRET
-
-from services.youtube_parser import parse_youtube_webhook_data # Renamed for clarity
-from services.gemini import generate
-from services.slack import send_slack_notification
 
 logging.basicConfig(level=logging.INFO)
-TIKTOK_CLIENT_SECRET = os.getenv('TIKTOK_CLIENT_SECRET')
 
 
 # 개발자 문서에 나온 예시 페이로드

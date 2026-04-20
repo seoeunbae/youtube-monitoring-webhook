@@ -22,19 +22,24 @@ logging.basicConfig(level=logging.INFO)
 # 더 강력한 중복 방지를 위해서는 Redis나 Firestore 같은 외부 저장소 사용을 권장합니다.
 PROCESSED_EVENTS = set()
 
-# slack response을 커스텀하는 부분
-def structure_slack_response(response_text):
+PLATFORM_HEADERS = {
+    "TikTok": "TikTok 영상 업데이트 🎥",
+    "YouTube": "YouTube 영상 업데이트 📺",
+    "Facebook": "Facebook 영상 업데이트 📘",
+}
+
+def structure_slack_response(response_text, platform, channel_name, video_uri, published):
     is_included = response_text.strip() == "True"
     result_message = "포함" if is_included else "미포함"
-    
-    message = (
-        f"**TikTok 영상 업데이트** 🎥\n"
-        f"채널 명: {tiktok_channel_name}\n"
+    header = PLATFORM_HEADERS.get(platform, f"{platform} 영상 업데이트")
+
+    return (
+        f"**{header}**\n"
+        f"채널 명: {channel_name}\n"
         f"확률형 아이템 문구: {result_message}\n"
         f"영상 URL: {video_uri}\n"
         f"영상 업로드 시간: {published}"
     )
-    return message
 
 @functions_framework.http
 def youtube_webhook(request):
@@ -123,9 +128,8 @@ def handle_webhook(request):
 
             try:
                 response_text = generate(video_uri, prompt, "")
-                message = structure_slack_response(response_text)
+                message = structure_slack_response(response_text, "TikTok", tiktok_channel_name, video_uri, published)
                 send_slack_notification(message)
-                return "ok", 200
             except Exception as e:
                 logging.error(f"Error processing TikTok webhook: {e}")
 
@@ -150,11 +154,12 @@ def handle_webhook(request):
 
         prompt = "다음 Facebook 영상 URI에서 영상의 제목과 설명에 '확률형 아이템 포함' 이라는 문구가 정확히 포함되어 있는지 여부를 판단하여 포함인 경우 'True' 또는 미포함 인 경우 'False' 으로만 답변해주세요."
 
+        facebook_channel_name = os.getenv('FACEBOOK_PAGE_NAME', 'Facebook Page')
+        published = facebook_video_data.get('created_time', 'N/A')
         try:
             response_text = generate(video_uri, prompt, facebook_video_data.get('message', ''))
-            message = structure_slack_response(response_text)
+            message = structure_slack_response(response_text, "Facebook", facebook_channel_name, video_uri, published)
             send_slack_notification(message)
-            return "ok", 200
         except Exception as e:
             logging.error(f"Error processing Facebook webhook: {e}")
 
@@ -175,11 +180,12 @@ def handle_webhook(request):
         video_uri = f"https://www.youtube.com/watch?v={video_data['video_id']}"
         prompt = "다음 YouTube 영상 URI에서 영상의 제목과 설명에 '확률형 아이템 포함' 이라는 문구가 정확히 포함되어 있는지 여부를 판단하여 포함인 경우 'True' 또는 미포함 인 경우 'False' 으로만 답변해주세요."
         
+        youtube_channel_name = video_data.get('channel_id', 'Unknown')
+        published = video_data.get('published', 'N/A')
         try:
             response_text = generate(video_uri, prompt, "")
-            message = structure_slack_response(response_text)
+            message = structure_slack_response(response_text, "YouTube", youtube_channel_name, video_uri, published)
             send_slack_notification(message)
-            return "ok", 200
         except Exception as e:
             logging.error(f"Error processing YouTube webhook: {e}")
     else:
